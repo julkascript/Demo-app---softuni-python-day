@@ -45,19 +45,19 @@
 
 <script>
 // @ is an alias to /src
+import axios from "axios";
 
 export default {
   name: "HomeView",
   data() {
     return {
-      tasks: [
-        { name: "walk the dog", done: false },
-        { name: "walk the cat", done: true },
-      ],
+      tasks: [],
     };
   },
   created() {
-    //
+    axios.get(`http://localhost:8000/api/todos/`).then(({ data }) => {
+      this.tasks = data;
+    });
   },
 };
 </script>

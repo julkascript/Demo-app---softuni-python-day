@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import store from '@/store/index.js';
 
 const routes = [
   {
@@ -16,6 +17,11 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
   },
+  {
+    path: "/login",
+    name: "login",
+    component: () => import ("../views/Login.vue")
+  }
 ];
 
 const router = createRouter({
@@ -23,4 +29,14 @@ const router = createRouter({
   routes,
 });
 
+router.beforeEach((to, from, next) => {
+  if (!store.getters.isLoggedIn && !to.fullPath.includes('login')) {
+    next({ name: 'login' });
+  } else {
+    next();
+  }
+});
+
 export default router;
+
+

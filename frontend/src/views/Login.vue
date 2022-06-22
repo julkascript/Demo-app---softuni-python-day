@@ -1,13 +1,18 @@
 <template>
-    <div>Login:</div>
+  <LoginDog />
 </template>
 
 <script>
+import LoginDog from '@/components/LoginDog.vue';
 export default {
-    name: 'LoginView',
-    data() {
-        return {};
-    }
+  components: { LoginDog },
+  name: "LoginView",
+  data() {
+    return {
+      toggleHide: 'unhide'
+    };
+  },
+  
 };
 </script>
 

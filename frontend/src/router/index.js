@@ -32,6 +32,8 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   if (!store.getters.isLoggedIn && !to.fullPath.includes('login')) {
     next({ name: 'login' });
+  } else if (store.getters.isLoggedIn && to.fullPath.includes('login')) {
+    next({name: 'home'});
   } else {
     next();
   }

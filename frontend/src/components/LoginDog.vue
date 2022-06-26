@@ -79,6 +79,7 @@
           @focus="tiltFace()"
           @blur="untiltFace()"
           @input="followHead($event)"
+          v-model="username"
         />
       </label>
       <label>
@@ -90,12 +91,13 @@
           placeholder="password"
           @focus="hideEyes()"
           @blur="unsetHide()"
+          v-model="password"
         />
         <button class="password-button" @click="togglePasswordButton()">
           {{ toggleHide }}
         </button>
       </label>
-      <button class="login-button">sign in</button>
+      <button class="login-button" @click="$emit('login', username, password)">sign in</button>
     </div>
     <div class="footer">
       <button type="button" class="login-with-google-btn">
@@ -110,6 +112,8 @@ export default {
   data() {
     return {
       toggleHide: "unhide",
+      username: '',
+      password: ''
     };
   },
   methods: {

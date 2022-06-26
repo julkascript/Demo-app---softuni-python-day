@@ -1,5 +1,5 @@
 <template>
-  <LoginDog />
+  <LoginDog @login="login" />
 </template>
 
 <script>
@@ -12,6 +12,12 @@ export default {
       toggleHide: 'unhide'
     };
   },
+  methods: {
+    login(username, password) {
+      this.$store.dispatch('LOGIN', {username, password});
+      this.$router.push('/');
+    }
+  }
   
 };
 </script>

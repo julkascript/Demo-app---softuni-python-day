@@ -9,12 +9,14 @@
           placeholder="Create a task"
           aria-label="Create a task"
           aria-describedby="button-addon2"
+          v-model="taskInput"
         />
         <div class="input-group-append">
           <button
             class="btn btn-outline-primary p-1"
             type="button"
             id="button-addon2"
+            @click="createTodo()"
           >
             Create
           </button>
@@ -52,6 +54,7 @@ export default {
   data() {
     return {
       tasks: [],
+      taskInput: ''
     };
   },
   created() {
@@ -59,6 +62,14 @@ export default {
       this.tasks = data;
     });
   },
+  methods: {
+    createTodo() {
+      axios.post(`http://localhost:8000/api/todos/`, { name: this.taskInput }).then((response) => {
+        this.taskInput = "";
+        console.log(response);
+      });
+    }
+  }
 };
 </script>
 

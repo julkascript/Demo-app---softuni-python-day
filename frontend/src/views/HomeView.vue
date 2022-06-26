@@ -26,8 +26,14 @@
         <div v-for="task in tasks" :key="task.id" class="task">
           <h5 v-if="!task.done" class="task-title">{{ task.name }}</h5>
           <div v-if="!task.done" class="buttons-holder">
-            <button class="btn btn-sm btn-danger p-1">remove</button>
-            <button class="btn btn-sm btn-success complete-button p-1">
+            <button 
+              @click="removeTask(task.id)"
+              class="btn btn-sm btn-danger p-1"
+            >remove</button>
+            <button 
+              @click="completeTask(task.id)"
+              class="btn btn-sm btn-success complete-button p-1"
+            >
               complete
             </button>
           </div>
@@ -58,15 +64,33 @@ export default {
     };
   },
   created() {
-    axios.get(`http://localhost:8000/api/todos/`).then(({ data }) => {
-      this.tasks = data;
-    });
+    this.getTodos();
   },
   methods: {
     createTodo() {
+      // eslint-disable-next-line no-unused-vars
       axios.post(`http://localhost:8000/api/todos/`, { name: this.taskInput }).then((response) => {
         this.taskInput = "";
-        console.log(response);
+        this.getTodos();
+      });
+    },
+    getTodos() {
+      axios.get(`http://localhost:8000/api/todos/`).then(({ data }) => {
+        this.tasks = data;
+      });
+    },
+    completeTask(id) {
+      // eslint-disable-next-line no-unused-vars
+      axios.post(`http://localhost:8000/api/todos/complete_task/`, { id }).then((response) => {
+        this.taskInput = "";
+        this.getTodos();
+      });
+    },
+    removeTask(id) {
+      axios.delete(`http://localhost:8000/api/todos/${id}/`).then(() => {
+        this.getTodos();
+      }).catch((error) => {
+        console.log(error);
       });
     }
   }

@@ -27,8 +27,6 @@ SECRET_KEY = 'k8b^y952f(10ox6993@h0q3-+&d_r#-g!qu+1zpggva_kux)2x'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -62,8 +60,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+ALLOWED_HOSTS = []
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_CREDENTIALS = False
 
 CORS_ALLOWED_ORIGINS = [
     '*',

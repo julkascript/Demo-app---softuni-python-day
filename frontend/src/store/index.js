@@ -22,7 +22,7 @@ export default createStore({
           password
         }).then(({data}) => {
           setCookie('access_token', data['access'], 3);
-          setCookie('refresh_token', data['access'], 3);
+          setCookie('refresh_token', data['refresh'], 3);
           router.push('/');
           resolve(data);
         }).catch((error) => {

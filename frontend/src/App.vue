@@ -1,10 +1,32 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
+  <div class="d-flex flex-row align-items-center justify-content-center">
+    <nav>
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>
+    </nav>
+    <div 
+      class="logout-btn"
+      v-show="isLoggedIn"
+      @click="logout"
+    >Logout</div>
+  </div>
   <router-view />
 </template>
+
+<script>
+export default {
+  methods: {
+    logout() {
+      this.$store.dispatch('LOGOUT');
+    }
+  },
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
+    }
+  }
+};
+</script>
 
 <style>
 
@@ -28,5 +50,11 @@ nav a {
 nav a.router-link-exact-active {
   color: #42b983;
 }
+
+.logout-btn:hover {
+  cursor: pointer;
+  color: blue;
+}
+
 @import "~bootstrap/dist/css/bootstrap.css";
 </style>

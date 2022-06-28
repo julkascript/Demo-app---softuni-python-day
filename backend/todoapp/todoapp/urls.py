@@ -16,4 +16,5 @@ api_urls = [
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(api_urls)),
+    path('auth/', include('social_django.urls', namespace='social')),
 ]

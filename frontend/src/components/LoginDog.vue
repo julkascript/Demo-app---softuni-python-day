@@ -100,7 +100,11 @@
       <button class="login-button" @click="$emit('login', username, password)">sign in</button>
     </div>
     <div class="footer">
-      <button type="button" class="login-with-google-btn">
+      <button 
+        type="button"
+        class="login-with-google-btn"
+        @click="$emit('google-login')"
+      >
         Sign in with Google
       </button>
     </div>

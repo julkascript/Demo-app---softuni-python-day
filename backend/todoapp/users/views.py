@@ -3,7 +3,13 @@ from rest_framework.authtoken.models import Token
 from rest_framework.generics import CreateAPIView, GenericAPIView
 from rest_framework.response import Response
 from rest_framework.generics import RetrieveDestroyAPIView
+from django.shortcuts import redirect, HttpResponseRedirect
+
 from users.serializers import UserRegistrationSerializer, UserLoginSerializer, TokenSerializer
+
+from rest_framework_simplejwt.tokens import RefreshToken
+
+from django.contrib.auth.models import User
 
 
 class UserRegistrationAPIView(CreateAPIView):
@@ -66,3 +72,19 @@ class UserTokenAPIView(RetrieveDestroyAPIView):
             Token.objects.get(key=request.auth.key).delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         return super(UserTokenAPIView, self).destroy(request, key, *args, **kwargs)
+
+
+def complete_login(backend, user, response, *args, **kwargs):
+    user_obj = User.objects.get(username=user.username)
+    refresh = RefreshToken.for_user(user_obj)
+    tokens = {
+        'refresh': str(refresh),
+        'access': str(refresh.access_token)
+    }
+
+    next_param = backend.strategy.session_get('next') 
+    full_next_param = next_param if next_param is not '/' else ''
+    response = HttpResponseRedirect(f'http://localhost:8080{full_next_param}')
+    response.set_cookie('access_token', tokens['access'])
+    response.set_cookie('refresh_token', tokens['refresh'])
+    return response

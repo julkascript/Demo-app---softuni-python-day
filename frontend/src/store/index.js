@@ -1,4 +1,4 @@
-import { getCookie, setCookie } from "@/utils";
+import { deleteCookie, getCookie, setCookie } from "@/utils";
 import { createStore } from "vuex";
 import axios from 'axios';
 import router from '@/router/index';
@@ -16,7 +16,6 @@ export default createStore({
   actions: {
     LOGIN(context, { username, password }) {
       return new Promise((resolve, reject) => {
-        console.log('posting...');
         axios.post('http://localhost:8000/api/token/', {
           username,
           password
@@ -29,6 +28,18 @@ export default createStore({
           console.log(error);
           reject(false);
         });
+      });
+    },
+    LOGOUT(context) {
+      return new Promise((resolve, reject) => {
+        try {
+          deleteCookie('access_token');
+          deleteCookie('refresh_token');
+          router.push('/login');
+          resolve(context);
+        } catch (err) {
+          reject(context);
+        }
       });
     }
   },

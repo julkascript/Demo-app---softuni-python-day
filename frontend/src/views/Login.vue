@@ -1,5 +1,5 @@
 <template>
-  <LoginDog @login="login" />
+  <LoginDog @login="login" @google-login="googleLogin" />
 </template>
 
 <script>
@@ -16,6 +16,9 @@ export default {
     login(username, password) {
       this.$store.dispatch('LOGIN', {username, password});
       this.$router.push('/');
+    },
+    googleLogin() {
+      window.location.href = "http://localhost:8000/auth/login/google-oauth2/";
     }
   }
   
